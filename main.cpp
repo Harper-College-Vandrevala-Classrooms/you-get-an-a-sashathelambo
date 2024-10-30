@@ -61,6 +61,9 @@ public:
         if (category.empty()) {
             category = "Uncategorized"; // Default category
             cout << "\033[33mNo category provided. Defaulting to 'Uncategorized'.\033[0m\n";
+        } else {
+            // Convert category to lowercase
+            transform(category.begin(), category.end(), category.begin(), ::tolower);
         }
         assignments.emplace_back(name, points, category);
         for (const auto& student_id : student_ids) {
@@ -181,27 +184,30 @@ int main() {
         switch (choice) {
             case 1: {
                 string last_name, first_name, student_id;
-                cout << "Enter last name: ";
-                cin >> ws;
-                getline(cin, last_name);
-                if (last_name.empty()) {
-                    cout << "\033[31mLast name cannot be empty. Please try again.\033[0m\n";
-                    break;
-                }
+                do {
+                    cout << "Enter last name: ";
+                    cin >> ws;
+                    getline(cin, last_name);
+                    if (last_name.empty()) {
+                        cout << "\033[31mLast name cannot be empty. Please try again.\033[0m\n";
+                    }
+                } while (last_name.empty());
 
-                cout << "Enter first name: ";
-                getline(cin, first_name);
-                if (first_name.empty()) {
-                    cout << "\033[31mFirst name cannot be empty. Please try again.\033[0m\n";
-                    break;
-                }
+                do {
+                    cout << "Enter first name: ";
+                    getline(cin, first_name);
+                    if (first_name.empty()) {
+                        cout << "\033[31mFirst name cannot be empty. Please try again.\033[0m\n";
+                    }
+                } while (first_name.empty());
 
-                cout << "Enter student ID (8 digits): ";
-                getline(cin, student_id);
-                if (student_id.empty()) {
-                    cout << "\033[31mStudent ID cannot be empty. Please try again.\033[0m\n";
-                    break;
-                }
+                do {
+                    cout << "Enter student ID (8 digits): ";
+                    getline(cin, student_id);
+                    if (student_id.empty()) {
+                        cout << "\033[31mStudent ID cannot be empty. Please try again.\033[0m\n";
+                    }
+                } while (student_id.empty());
 
                 gradebook.add_student(last_name, first_name, student_id);
                 break;
@@ -212,13 +218,14 @@ int main() {
                 vector<string> assigned_students;
                 string category;
 
-                cout << "Enter assignment name: ";
-                cin.ignore();
-                getline(cin, assignment_name);
-                if (assignment_name.empty()) {
-                    cout << "\033[31mAssignment name cannot be empty. Please try again.\033[0m\n";
-                    break;
-                }
+                do {
+                    cout << "Enter assignment name: ";
+                    cin.ignore();
+                    getline(cin, assignment_name);
+                    if (assignment_name.empty()) {
+                        cout << "\033[31mAssignment name cannot be empty. Please try again.\033[0m\n";
+                    }
+                } while (assignment_name.empty());
 
                 cout << "Enter total points: ";
                 while (!(cin >> total_points)) {
@@ -227,13 +234,17 @@ int main() {
                     cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 }
 
-                cout << "Enter assignment category (e.g., Finals, Tests, Quizzes, Midterms): ";
-                cin.ignore();
-                getline(cin, category);
-                if (category.empty()) {
-                    cout << "\033[31mCategory cannot be empty. Please try again.\033[0m\n";
-                    break;
-                }
+                do {
+                    cout << "Enter assignment category (e.g., Finals, Tests, Quizzes, Midterms): ";
+                    cin.ignore();
+                    getline(cin, category);
+                    if (category.empty()) {
+                        cout << "\033[31mCategory cannot be empty. Please try again.\033[0m\n";
+                    }
+                } while (category.empty());
+
+                // Convert category to lowercase
+                transform(category.begin(), category.end(), category.begin(), ::tolower);
 
                 cout << "\nAvailable Students:\n";
                 for (size_t i = 0; i < gradebook.students.size(); ++i) {
@@ -276,20 +287,22 @@ int main() {
             case 3: {
                 string student_id, assignment_name;
                 int grade;
-                cout << "Enter student ID: ";
-                cin >> ws;
-                getline(cin, student_id);
-                if (student_id.empty()) {
-                    cout << "\033[31mStudent ID cannot be empty. Please try again.\033[0m\n";
-                    break;
-                }
+                do {
+                    cout << "Enter student ID: ";
+                    cin >> ws;
+                    getline(cin, student_id);
+                    if (student_id.empty()) {
+                        cout << "\033[31mStudent ID cannot be empty. Please try again.\033[0m\n";
+                    }
+                } while (student_id.empty());
 
-                cout << "Enter assignment name: ";
-                getline(cin, assignment_name);
-                if (assignment_name.empty()) {
-                    cout << "\033[31mAssignment name cannot be empty. Please try again.\033[0m\n";
-                    break;
-                }
+                do {
+                    cout << "Enter assignment name: ";
+                    getline(cin, assignment_name);
+                    if (assignment_name.empty()) {
+                        cout << "\033[31mAssignment name cannot be empty. Please try again.\033[0m\n";
+                    }
+                } while (assignment_name.empty());
 
                 cout << "Enter grade: ";
                 while (!(cin >> grade)) {
@@ -306,13 +319,14 @@ int main() {
             }
             case 5: {
                 string assignment_name;
-                cout << "Enter assignment name: ";
-                cin.ignore();
-                getline(cin, assignment_name);
-                if (assignment_name.empty()) {
-                    cout << "\033[31mAssignment name cannot be empty. Please try again.\033[0m\n";
-                    break;
-                }
+                do {
+                    cout << "Enter assignment name: ";
+                    cin.ignore();
+                    getline(cin, assignment_name);
+                    if (assignment_name.empty()) {
+                        cout << "\033[31mAssignment name cannot be empty. Please try again.\033[0m\n";
+                    }
+                } while (assignment_name.empty());
                 cout << gradebook.assignment_report(assignment_name) << endl;
                 break;
             }
